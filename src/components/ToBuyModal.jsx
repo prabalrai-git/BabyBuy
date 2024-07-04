@@ -22,11 +22,13 @@ const ToBuyModal = ({
   const [name, setName] = useState();
   const [image, setImage] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [location, setLocation] = useState();
 
   useEffect(() => {
     if (toEditDoc) {
       setName(toEditDoc?.name);
       setSelectedImage(toEditDoc?.image);
+      setLocation(toEditDoc?.location);
     }
   }, [toEditDoc]);
 
@@ -38,9 +40,18 @@ const ToBuyModal = ({
     try {
       setIsLoading(true);
 
+      console.log({
+        name: name,
+        image: image,
+        location: location,
+        isPurchased: false,
+      });
+
       await firestore().collection('ToBuys').add({
         name: name,
         image: image,
+        location: location,
+        isPurchased: false,
       });
       setName();
       setImage();
@@ -62,6 +73,8 @@ const ToBuyModal = ({
         .update({
           name: name,
           image: image ? image : toEditDoc?.image,
+          location: location,
+          isPurchased: toEditDoc?.isPurchased,
         });
       setName();
       setImage();
@@ -84,7 +97,7 @@ const ToBuyModal = ({
       <View
         style={{
           backgroundColor: 'white',
-          minHeight: '70%',
+          minHeight: '80%',
           borderRadius: 6,
           color: 'black',
         }}>
@@ -133,6 +146,14 @@ const ToBuyModal = ({
             onChangeText={e => setName(e)}
             value={name}
             placeholder="Enter a name"
+            placeholderTextColor={'gray'}
+          />
+          <Text style={{color: 'black', paddingLeft: 12}}>Location</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={e => setLocation(e)}
+            value={location}
+            placeholder="Enter location"
             placeholderTextColor={'gray'}
           />
           <UploadImage

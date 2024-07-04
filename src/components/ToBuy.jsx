@@ -1,10 +1,22 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 // import ToBuyModal from './ToBuyModal';
 import firestore from '@react-native-firebase/firestore';
 import {SendDirectSms} from 'react-native-send-direct-sms';
+import {Switch} from 'react-native-switch';
 
-const ToBuy = ({item, setFetchAgain, setToEditDoc, setIsModalVisible}) => {
+const ToBuy = ({
+  item,
+  setFetchAgain,
+  setToEditDoc,
+  setIsModalVisible,
+  setIsDModalVisible,
+}) => {
+  const [isPurchased, setIsPurchased] = useState();
+
+  useEffect(() => {
+    setIsPurchased(item?.isPurchased);
+  }, []);
   const onDelete = async () => {
     try {
       await firestore().collection('ToBuys').doc(item.id).delete();
@@ -18,11 +30,15 @@ const ToBuy = ({item, setFetchAgain, setToEditDoc, setIsModalVisible}) => {
     setIsModalVisible(item);
   };
 
-  function sendSmsData(mobileNumber, bodySMS) {
-    SendDirectSms(mobileNumber, bodySMS)
-      .then(res => console.log('SMS sent successfully', res))
-      .catch(err => console.error('Error sending SMS', err));
-  }
+  const puschasedToggled = async val => {
+    await firestore().collection('ToBuys').doc(item?.id).update({
+      name: item?.name,
+      image: item?.image,
+      location: item?.location,
+      isPurchased: val,
+    });
+    setIsPurchased(val);
+  };
 
   return (
     <>
@@ -79,7 +95,8 @@ const ToBuy = ({item, setFetchAgain, setToEditDoc, setIsModalVisible}) => {
               Delete
             </Text>
           </TouchableOpacity>
-          <View
+
+          {/* <View
             style={{
               backgroundColor: 'lightgreen',
               borderColor: 'green',
@@ -96,11 +113,29 @@ const ToBuy = ({item, setFetchAgain, setToEditDoc, setIsModalVisible}) => {
               }}>
               Purchased
             </Text>
-          </View>
+          </View> */}
+        </View>
+        <View style={{flexDirection: 'row', gap: 30, marginVertical: 15}}>
+          <Text
+            style={{
+              color: 'black',
+              alignSelf: 'flex-end',
+              fontSize: 18,
+              fontWeight: '500',
+            }}>
+            Purchased
+          </Text>
+          <Switch
+            value={isPurchased}
+            onValueChange={val => puschasedToggled(val)}
+            disabled={false}
+            activeText={'Yes'}
+            inActiveText={'No'}
+          />
         </View>
         <View>
           <TouchableOpacity
-            onPress={() => sendSmsData('+9779818158171', 'hello k ch?')}
+            onPress={() => setIsDModalVisible(true)}
             style={{
               backgroundColor: 'purple',
               width: '100%',
@@ -108,7 +143,9 @@ const ToBuy = ({item, setFetchAgain, setToEditDoc, setIsModalVisible}) => {
               marginTop: 10,
               borderRadius: 6,
             }}>
-            <Text style={{textAlign: 'center', color: 'white'}}>Send SMS</Text>
+            <Text style={{textAlign: 'center', color: 'white'}}>
+              Delegate Product
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

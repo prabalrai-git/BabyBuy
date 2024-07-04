@@ -32,7 +32,11 @@ function App(): React.JSX.Element {
           name="Splash"
           component={Splash}
         />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Register"
+          component={Register}
+        />
         <Stack.Screen
           options={{
             headerTitle: () => <HeaderBar />,

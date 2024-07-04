@@ -73,7 +73,7 @@ const Register = ({navigation}) => {
         flex: 1,
       }}>
       <Button title="Google Sign-In" onPress={() => _signIn()} />
-      <Button title="Google Sign-Out" onPress={() => signOut()} />
+      {/* <Button title="Google Sign-Out" onPress={() => signOut()} /> */}
     </View>
   );
 };

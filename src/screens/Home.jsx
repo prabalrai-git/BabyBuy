@@ -3,12 +3,14 @@ import React, {useEffect, useState} from 'react';
 import ToBuy from '../components/ToBuy';
 import ToBuyModal from '../components/ToBuyModal';
 import firestore from '@react-native-firebase/firestore';
+import DelegateModal from '../components/DelegateModal';
 
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [toBuys, setToBuys] = useState();
   const [fetchAgain, setFetchAgain] = useState(false);
   const [toEditDoc, setToEditDoc] = useState();
+  const [isDModalVisible, setIsDModalVisible] = useState(false);
 
   async function getCollectionData() {
     try {
@@ -43,7 +45,10 @@ const Home = () => {
         setFetchAgain={setFetchAgain}
         setToEditDoc={setToEditDoc}
       />
-
+      <DelegateModal
+        setIsModalVisible={setIsDModalVisible}
+        isModalVisible={isDModalVisible}
+      />
       <View style={{flex: 1, padding: 30}}>
         <Text style={{color: 'black', fontSize: 20}}>
           Greetings Prabal Rai!
@@ -76,6 +81,7 @@ const Home = () => {
             return (
               <ToBuy
                 key={item.image}
+                setIsDModalVisible={setIsDModalVisible}
                 item={item}
                 setFetchAgain={setFetchAgain}
                 setToEditDoc={setToEditDoc}

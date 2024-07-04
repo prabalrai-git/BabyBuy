@@ -50,16 +50,20 @@ const UploadImage = ({setSelectedImage, selectedImage, setImage}) => {
     const reference = storage().ref(imageInfo);
 
     // uploads file
-    await reference.putFile(selectedImage);
-    const url = await storage().ref(imageInfo).getDownloadURL();
-    setImage(url);
+    try {
+      await reference.putFile(selectedImage);
+      const url = await storage().ref(imageInfo).getDownloadURL();
+      setImage(url);
+    } catch (error) {
+      console.log(error, 'now this');
+    }
   };
 
   useEffect(() => {
     if (selectedImage && imageInfo) {
       uploadImageToFireBaseBucket();
     }
-  }, [selectedImage]);
+  }, [selectedImage, imageInfo]);
 
   return (
     <>
