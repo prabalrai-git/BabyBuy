@@ -2,7 +2,6 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 // import ToBuyModal from './ToBuyModal';
 import firestore from '@react-native-firebase/firestore';
-import {SendDirectSms} from 'react-native-send-direct-sms';
 import {Switch} from 'react-native-switch';
 
 const ToBuy = ({

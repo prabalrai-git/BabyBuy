@@ -72,6 +72,12 @@ const Register = ({navigation}) => {
         alignItems: 'center',
         flex: 1,
       }}>
+      <Text style={{fontSize: 32, color: 'black', marginBottom: 40}}>
+        Sign Up
+      </Text>
+      <Text style={{color: 'black', fontSize: 16}}>
+        Please use your google account to register:
+      </Text>
       <Button title="Google Sign-In" onPress={() => _signIn()} />
       {/* <Button title="Google Sign-Out" onPress={() => signOut()} /> */}
     </View>

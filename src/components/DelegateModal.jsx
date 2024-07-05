@@ -11,6 +11,7 @@ import Modal from 'react-native-modal';
 import {PermissionsAndroid} from 'react-native';
 import Contacts from 'react-native-contacts';
 import RNPickerSelect from 'react-native-picker-select';
+import {SendDirectSms} from 'react-native-send-direct-sms';
 
 const DelegateModal = ({setIsModalVisible, isModalVisible}) => {
   const [contacts, setContacts] = useState();
@@ -63,16 +64,30 @@ const DelegateModal = ({setIsModalVisible, isModalVisible}) => {
       <View
         style={{
           backgroundColor: 'white',
-          minHeight: '25%',
+          minHeight: '35%',
           borderRadius: 6,
           color: 'black',
         }}>
-        <RNPickerSelect
+        {/* <RNPickerSelect
           placeholder={'Choose your contact'}
           value={choosenContact}
           onValueChange={value => setChoosenContact(value)}
           items={contacts}
-        />
+        /> */}
+        <Text style={{color: 'black', padding: 20, paddingLeft: 30}}>
+          Enter mobile number to send delegation to:
+        </Text>
+        <TextInput
+          onChangeText={e => setChoosenContact(e)}
+          value={choosenContact}
+          style={{
+            borderColor: 'black',
+            borderWidth: 2,
+            width: '90%',
+            margin: 'auto',
+            marginBottom: 10,
+            color: 'black',
+          }}></TextInput>
         <View>
           <TouchableOpacity
             onPress={() => {
@@ -83,7 +98,7 @@ const DelegateModal = ({setIsModalVisible, isModalVisible}) => {
               width: '90%',
               paddingVertical: 10,
               margin: 'auto',
-              marginTop: 10,
+              marginTop: 0,
               borderRadius: 6,
             }}>
             <Text style={{textAlign: 'center', color: 'white'}}>Cancel</Text>
@@ -102,6 +117,7 @@ const DelegateModal = ({setIsModalVisible, isModalVisible}) => {
               margin: 'auto',
               marginTop: 10,
               borderRadius: 6,
+              marginBottom: 20,
             }}>
             <Text style={{textAlign: 'center', color: 'white'}}>Send SMS</Text>
           </TouchableOpacity>
